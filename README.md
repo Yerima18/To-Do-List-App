@@ -17,7 +17,7 @@ Contributions and Collaborations:
 Fork the repository, make changes, and submit pull requests to propose improvements or bug fixes.
 Open issues to report bugs, suggest enhancements, or discuss new features.
 Contribute to discussions on existing issues or tasks by providing feedback, ideas, or solutions.
-Feel free to modify this description as needed to accurately represent your React Native task manager app. Best of luck with your project!
+Feel free to modify this description as needed to accurately represent your React Native to-do-list-app. Best of luck with your project!
 
 To run the React Native to-do-list-app using Expo, follow these steps:
 
