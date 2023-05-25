@@ -4,87 +4,82 @@ import Task from './components/task';
 import React, { useState } from 'react';
 
 export default function App() {
+  // State variables
+  const [task, setTask] = useState(); // Holds the current task input value
+  const [taskItems, setTaskItems] = useState([]); // Holds the list of tasks
 
-  const [task, setTask] = useState();
-  const[taskItems, setTaskItems] = useState([]);
-
+  
+  
+  // Function to handle adding a task
   const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
+    Keyboard.dismiss(); // Dismisses the keyboard
+    if (task) { // Only adds the task if it is not empty
+      setTaskItems([...taskItems, task]); // Adds the current task to the taskItems array
+      setTask(''); // Resets the task input value to an empty string
+    }
   }
 
+   
+
+  // Function to mark a task as completed
   const completeTask = (index) => {
-    let itemCopy = [...taskItems];
-    itemCopy.splice(index, 1);
-    setTaskItems(itemCopy);
+    let itemCopy = [...taskItems]; // Creates a copy of the taskItems array
+    itemCopy.splice(index, 1); // Removes the task at the specified index
+    setTaskItems(itemCopy); // Updates the taskItems state with the modified array
   }
-
 
   return (
     <View style={styles.container}>
-
-      <View style={styles.container}>
-          <View style={styles.taskWrapper}>
-            <Text style={styles.sectionTitle}>Today's Tasks</Text>
-
-            <View style={styles.item} >  
-            {
-              taskItems.map((item, index) => {
-                return  (
-                  <TouchableOpacity key={index} onPress={() => completeTask(index)} >
-                    <Task text={item}/>
-                  </TouchableOpacity>
-                )
-              })
-            }
-              {/* <Task text={'task 1'} />
-              <Task text={'task 2'} /> */}
-            </View>
-
-          </View>
-
-            <KeyboardAvoidingView
-              behavior={ Platform.OS === "ios" ? "padding" : "height" }
-              style={styles.writeTaskWrapper}
-            >
-              <TextInput style={ styles.input } placeholder={ 'Write a Task' } value={task}  onChangeText={text => setTask(text)} />
-
-              <TouchableOpacity style={ styles.btn }  onPress={() => handleAddTask()} >
-                <View style={styles.addWrapper}>
-                  <Text style={ styles.addText } > + </Text>
-                 </View>
-              </TouchableOpacity>
-
-            </KeyboardAvoidingView>
- 
+      <View style={styles.taskWrapper}>
+        <Text style={styles.sectionTitle}>Today's Tasks</Text>
+        <ScrollView style={styles.item}>
+          {/* Renders each task item as a TouchableOpacity wrapped Task component */}
+          {taskItems.map((item, index) => (
+            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <Task text={item} />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
-      
+
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.writeTaskWrapper}
+      >
+        <TextInput
+          style={styles.input}
+          placeholder="Write a Task"
+          value={task}
+          onChangeText={(text) => setTask(text)}
+          clearButtonMode='always'
+        />
+        <TouchableOpacity style={styles.btn} onPress={() => handleAddTask()}>
+          <View style={styles.addWrapper}>
+            <Text style={styles.addText}>+</Text>
+          </View>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
     </View>
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8eaed',
   },
-
   taskWrapper: {
     paddingTop: 80,
     paddingHorizontal: 20,
   },
-
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-
   },
-
   item: {
     marginTop: 30,
   },
-
   writeTaskWrapper: {
     position: 'absolute',
     bottom: 60,
@@ -92,9 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-
   },
-
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
@@ -105,7 +98,6 @@ const styles = StyleSheet.create({
     width: 250,
     marginLeft: 30,
   },
-
   addWrapper: {
     width: 60,
     height: 60,
@@ -117,12 +109,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 15,
   },
-
-  addText: {
-
-  },
-
+  addText: {},
   btn: {
     marginRight: 20,
-  }
+  },
 });
